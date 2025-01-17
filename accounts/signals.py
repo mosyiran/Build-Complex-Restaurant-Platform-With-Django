@@ -21,4 +21,4 @@ def post_save_create_profile_receiver(sender, instance, created, **kwargs):
 def pre_save_profile_receiver(sender, instance, **kwargs):
     pass
 
-# post_save.connect(post_save_create_profile_receiver, sender=User)ile.
+ # post_save.connect(post_save_create_profile_receiver, sender=User)
