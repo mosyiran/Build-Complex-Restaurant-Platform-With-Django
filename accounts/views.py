@@ -9,7 +9,7 @@ from vendor.models import Vendor
 from .forms import UserForm
 from .models import User, UserProfile
 from django.contrib import messages, auth
-from .utild import detectUser
+from .utild import detectUser, send_verification_email
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 
@@ -52,6 +52,9 @@ def registerUser(request):
             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             user.role = User.CUSTOMER
             user.save()
+
+            # send verification email
+            send_verification_email(request, user)
             messages.success(request, 'your account has been register succefuly ')
             return redirect('registerUser')
 
@@ -87,6 +90,8 @@ def registerVendor(request):
             vendor.user = user
             user.profile = UserProfile.objects.get(user=user)
             vendor.user_profile = user.profile
+            Vendor.save()
+            send_verification_email(request, user)
             messages.success(request, 'your account has been register succefuly ')
             return redirect('registerVendor')
 
@@ -103,6 +108,11 @@ def registerVendor(request):
         'v_form': v_form,
     }
     return render(request, 'accounts/registerVendor.html', context)
+
+def activate(request, uidb64, token):
+    # activate the user by setting the active status
+    return
+
 
 def login(request):
     if request.user.is_authenticated:

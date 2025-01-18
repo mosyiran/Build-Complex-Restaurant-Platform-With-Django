@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models import OneToOneField
+from django.db.models.fields.related import ForeignKey, OneToOneField
 
 
 class UserManager(BaseUserManager):
@@ -101,7 +102,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
-
 
 
 
